@@ -9,12 +9,19 @@
         <button onClick="scan();">Scan</button>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript">
-            function scan(){
-                bluetoothle.initialize(function(status){alert(status);}, {
+        bluetoothle.initialize(function(status){alert(JSON.stringify(status));}, {
                     "request": true,
                     "statusReceiver": false,
                     "restoreKey" : "bluetoothleplugin"
                     });
+            function scan(){
+                bluetoothle.startScan(function(device) {
+                    var con = confirm('Connect to ' + JSON.stringify(device) + '?'); 
+                }, function(err) { 
+                             alert("Connection failure: " + JSON.stringify(err));
+                             ble.disconnect(device.id,);
+                        }, {});
+                
 
                /* alert("Scan Started")
                ble.startScan([], function(device) {
