@@ -35,21 +35,21 @@
                ble.startScan([], function(device) {
                  var con = confirm('Connect to ' + device.name + '?');  
                  if(con){
-                     document.getElementById('connect').innerHTML = 'Connected: ' + device.name;
                      connectToDevice = device.id;
                      ble.stopScan(function(){
                         ble.connect(connectToDevice, function (connected) { 
-                            alert("Connected!"+ connected);
+                            document.getElementById('connect').innerHTML = 'Connected: ' + device.name;
                             ble.startNotification(device.id, '0000fee4-0000-1000-8000-00805f9b34fb', '2a1e0005-fd51-d882-8ba8-b98c0000cd1e', function(val){
                                 var hex = [];
                                 var res = bluetoothle.bytesToString(val);
                                 for(var i = 0; i<res.length; i++) hex.push(res[i].toString(16));
-                                alert(stringToBytes(hex));
+                                //var temp = parseInt(hex.substring(), 16);
+                                alert(hex);
                             }, function(err){
                                 alert('Error in notification: ' + JSON.stringify(err));
                             });
                          }, function (err) { 
-                             document.getElementById('connect').innerHTML = 'Not Connected: ';
+                             document.getElementById('connect').innerHTML = 'Not Connected';
                              ble.connect(connectToDevice, connectedDevice, disconnectedDevice) 
                         }) 
                      });
