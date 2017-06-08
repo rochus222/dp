@@ -18,7 +18,7 @@
                     "restoreKey" : "bluetoothleplugin"
                     });
 
-                bluetoothle.discover(function(device) {
+                bluetoothle.startScan(function(device) {
                     if(!device.address) return;
                     var con = confirm('Connect to ' + JSON.stringify(device) + '?'); 
                     if(con){
