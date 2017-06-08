@@ -65,8 +65,8 @@ h2 {
 
 // See BLE heart rate service http://goo.gl/wKH3X7
 var heartRate = {
-    service: '0000',
-    measurement: '2a37'
+    service: '0000fee4-0000-1000-8000-00805f9b34fb',
+    measurement: '2a1e0005-fd51-d882-8ba8-b98c0000cd1e'
 };
 
 var app = {
@@ -86,8 +86,7 @@ var app = {
 
         function onScan(peripheral) {
             // this is demo code, assume there is only one heart rate monitor
-            alert(peripheral.name);
-            if(peripheral.name=="tmp_rh #5108"){
+              if(peripheral.name=="tmp_rh #5108"){
                 
             console.log("Found " + JSON.stringify(peripheral));
             foundHeartRateMonitor = true;
