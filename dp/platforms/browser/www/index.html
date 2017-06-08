@@ -20,6 +20,7 @@
                 bluetoothle.startScan(function(device) {
                     var con = confirm('Connect to ' + JSON.stringify(device) + '?'); 
                     if(con){
+                        bluetoothle.stopScan();
                         bluetoothle.bond(function(status) {
                             alert(JSON.stringify(status))
                         }, function(err) { 
