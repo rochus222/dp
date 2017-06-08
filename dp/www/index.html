@@ -41,10 +41,10 @@
                             document.getElementById('connect').innerHTML = 'Connected: ' + device.name;
                             ble.startNotification(device.id, '0000fee4-0000-1000-8000-00805f9b34fb', '2a1e0005-fd51-d882-8ba8-b98c0000cd1e', function(val){
                                 var hex = [];
-                                var res = bluetoothle.bytesToString(val);
-                                //for(var i = 0; i<res.length; i++) hex.push(res[i].toString(16));
+                                var res = stringToBytes(bluetoothle.bytesToString(val));
+                                for(var i = 0; i<res.length; i++) hex.push(res[i].toString(16));
                                 //var temp = parseInt(hex.substring(), 16);
-                                alert(stringToBytes(res));
+                                alert(hex);
                             }, function(err){
                                 alert('Error in notification: ' + JSON.stringify(err));
                             });
