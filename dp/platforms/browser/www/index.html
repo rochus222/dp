@@ -10,23 +10,27 @@
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript">
        
+            var bonded = [];
             function scan(){
- bluetoothle.initialize(function(status){alert(JSON.stringify(status));}, {
+                
+                bluetoothle.initialize(function(status){alert(JSON.stringify(status));}, {
                     "request": true,
                     "statusReceiver": false,
                     "restoreKey" : "bluetoothleplugin"
                     });
 
                 bluetoothle.startScan(function(device) {
+                    if(!device.address && bonded.indexOf(device.address) == -1) return;
                     var con = confirm('Connect to ' + JSON.stringify(device) + '?'); 
                     if(con){
+                        bonded.push(device.adress);
                         bluetoothle.stopScan();
                         bluetoothle.bond(function(status) {
                             alert(JSON.stringify(status))
                         }, function(err) { 
                              alert("Bond error: " + JSON.stringify(err));
                              //ble.disconnect(device.id);
-                        }, {address: device.address});
+                        }, {address : device.address});
                     }
                 }, function(err) { 
                              alert("Connection failure: " + JSON.stringify(err));
