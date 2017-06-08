@@ -12,7 +12,10 @@
             function scan(){
                 alert("Scan Started")
                ble.startScan([], function(device) {
-                 alert(JSON.stringify(device));
+                 var con = confirm('Connect to ' + device.name + '?');  
+                 if(con){
+                     ble.connect(device.id, function() { alert("Connected!"), function() { alert("Connection failure"));
+                 }
             }, function(err){alert("Scan failed: " + err)});
 
             setTimeout(ble.stopScan,
