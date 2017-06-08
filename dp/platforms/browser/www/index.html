@@ -23,10 +23,10 @@
                     var con = confirm('Connect to ' + JSON.stringify(device) + '?'); 
                     if(con){
                         bluetoothle.stopScan();
-                        bluetoothle.discover(function(status) {
+                        bluetoothle.connect(function(status) {
                             alert(JSON.stringify(status))
                         }, function(err) { 
-                             alert("Bond error: " + JSON.stringify(err));
+                             alert("Connect error: " + JSON.stringify(err));
                              //ble.disconnect(device.id);
                         }, {address : device.address});
                     }
