@@ -68,6 +68,7 @@ var heartRate = {
     service: '0000',
     measurement: '2a1e'
 };
+var connected_peripheral;
 
 var app = {
     initialize: function() {
@@ -90,7 +91,7 @@ var app = {
                 
             console.log("Found " + JSON.stringify(peripheral));
             foundHeartRateMonitor = true;
-
+            connected_peripheral = peripheral.id;
             ble.connect(peripheral.id, app.onConnect, app.onDisconnect);
             }
         }
@@ -112,9 +113,10 @@ var app = {
         ble.startNotification(peripheral.id, heartRate.service, heartRate.measurement, app.onData, app.onError);
     },
     onDisconnect: function(reason) {
-        alert("Disconnected " + JSON.stringify(reason));
+        ble.connect(connected_peripheral, app.onConnect, app.onDisconnect);
+        /*alert("Disconnected " + JSON.stringify(reason));
         beatsPerMinute.innerHTML = "...";
-        app.status("Disconnected");
+        app.status("Disconnected");*/
     },
     onData: function(buffer) {
         // assuming heart rate measurement is Uint8 format, real code should check the flags
