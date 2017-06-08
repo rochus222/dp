@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>Blank App</title>
+    </head>
+    <body>
+        <button onClick="scan();">Scan</button>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript">
+            function scan(){
+                alert("Scan Started")
+               ble.startScan([], function(device) {
+                 alert(JSON.stringify(device));
+            }, function(err){alert("Scan failed: " + err)});
+
+            setTimeout(ble.stopScan,
+                10000,
+                function() { alert("Scan complete"); },
+                function() { alert("stopScan failed"); }
+            );
+            }
+        </script>
+    </body>
+</html>
