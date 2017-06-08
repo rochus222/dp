@@ -92,7 +92,7 @@ var app = {
             console.log("Found " + JSON.stringify(peripheral));
             foundHeartRateMonitor = true;
             connected_peripheral = peripheral.id;
-            ble.connect(peripheral.id, app.onConnect, app.onDisconnect);
+            ble.startNotification(peripheral.id, heartRate.service, heartRate.measurement, app.onData, app.onError);
             }
         }
 
