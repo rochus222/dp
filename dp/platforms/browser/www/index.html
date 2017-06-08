@@ -20,7 +20,7 @@
                         ble.connect(connectToDevice, function (connected) { 
                             alert("Connected!"+ connected);
                             ble.startNotification(device.id, '0000fee4-0000-1000-8000-00805f9b34fb', '2a1e0005-fd51-d882-8ba8-b98c0000cd1e', function(val){
-                                alert(val);
+                                alert(String.fromCharCode.apply(null, new Uint16Array(val)));
                             }, function(err){
                                 alert('Error in notification: ' + JSON.stringify(err));
                             });
