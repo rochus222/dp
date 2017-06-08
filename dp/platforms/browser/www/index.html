@@ -9,21 +9,14 @@
         <button onClick="scan();">Scan</button>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript">
+        var connectToDevice;
             function scan(){
                 alert("Scan Started")
                ble.startScan([], function(device) {
                  var con = confirm('Connect to ' + device.name + '?');  
                  if(con){
-                     ble.connect(device.id, function(connected) { 
-                            alert("Connected!"+ connected);
-                            ble.startNotification(device.id, '0000fee4-0000-1000-8000-00805f9b34fb', '2a1e0005-fd51-d882-8ba8-b98c0000cd1e', function(val){
-                                alert('value: ' + val);
-                            }, function(err){
-                                alert('Error in notification: ' + JSON.stringify(err));
-                            });
-                         }, function(err) { 
-                             alert("Connection failure: " + JSON.stringify(err));
-                        });
+                     connectToDevice = device.id;
+                     ble.connect(dconnectToDevice, connectedDevice, disconnectedDevice) 
                  }
             }, function(err){alert("Scan failed: " + err)});
 
@@ -33,6 +26,20 @@
                 function() { alert("stopScan failed"); }
             );
             }
+
+            function connectedDevice(connected) { 
+                            alert("Connected!"+ connected);
+                            ble.startNotification(device.id, '0000fee4-0000-1000-8000-00805f9b34fb', '2a1e0005-fd51-d882-8ba8-b98c0000cd1e', function(val){
+                                alert('value: ' + val);
+                            }, function(err){
+                                alert('Error in notification: ' + JSON.stringify(err));
+                            });
+                         }
+
+                         function disconnectedDevice(err) { 
+                             alert("Connection failure: " + JSON.stringify(err));
+                             ble.connect(dconnectToDevice, connectedDevice, disconnectedDevice) 
+                        }
         </script>
     </body>
 </html>
