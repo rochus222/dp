@@ -19,9 +19,17 @@
 
                 bluetoothle.startScan(function(device) {
                     var con = confirm('Connect to ' + JSON.stringify(device) + '?'); 
+                    if(con){
+                        bluetoothle.bond(function(status) {
+                            alert(JSON.stringify(status))
+                        }, function(err) { 
+                             alert("Bond error: " + JSON.stringify(err));
+                             //ble.disconnect(device.id);
+                        }, params);
+                    }
                 }, function(err) { 
                              alert("Connection failure: " + JSON.stringify(err));
-                             ble.disconnect(device.id,);
+                             //ble.disconnect(device.id,);
                         }, {});
                 
 
