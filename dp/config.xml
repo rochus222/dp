@@ -11,4 +11,5 @@
     <access origin="*" />
     <plugin name="cordova-plugin-ble-central" spec="~1.1.4" />
     <plugin name="cordova-plugin-bluetoothle" spec="~4.4.0" />
+    <plugin name="cordova-plugin-geolocation" spec="~2.4.3" />
 </widget>

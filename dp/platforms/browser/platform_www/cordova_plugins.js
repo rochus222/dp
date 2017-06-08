@@ -30,7 +30,8 @@ module.exports.metadata =
 {
     "cordova-plugin-ble-central": "1.1.4",
     "cordova-plugin-compat": "1.1.0",
-    "cordova-plugin-bluetoothle": "4.4.0"
+    "cordova-plugin-bluetoothle": "4.4.0",
+    "cordova-plugin-geolocation": "2.4.3"
 }
 // BOTTOM OF METADATA
 });

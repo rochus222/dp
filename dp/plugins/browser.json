@@ -12,6 +12,9 @@
         },
         "cordova-plugin-bluetoothle": {
             "PACKAGE_NAME": "com.pkdesigns.temp_rh"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.pkdesigns.temp_rh"
         }
     },
     "dependent_plugins": {
