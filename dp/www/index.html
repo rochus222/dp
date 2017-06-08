@@ -16,7 +16,17 @@
                  var con = confirm('Connect to ' + device.name + '?');  
                  if(con){
                      connectToDevice = device.id;
-                     ble.connect(dconnectToDevice, connectedDevice, disconnectedDevice) 
+                     ble.connect(dconnectToDevice, function (connected) { 
+                            alert("Connected!"+ connected);
+                            ble.startNotification(device.id, '0000fee4-0000-1000-8000-00805f9b34fb', '2a1e0005-fd51-d882-8ba8-b98c0000cd1e', function(val){
+                                alert('value: ' + val);
+                            }, function(err){
+                                alert('Error in notification: ' + JSON.stringify(err));
+                            });
+                         }, function (err) { 
+                             alert("Connection failure: " + JSON.stringify(err));
+                             ble.connect(connectToDevice, connectedDevice, disconnectedDevice) 
+                        }) 
                  }
             }, function(err){alert("Scan failed: " + err)});
 
@@ -27,19 +37,9 @@
             );
             }
 
-            function connectedDevice(connected) { 
-                            alert("Connected!"+ connected);
-                            ble.startNotification(device.id, '0000fee4-0000-1000-8000-00805f9b34fb', '2a1e0005-fd51-d882-8ba8-b98c0000cd1e', function(val){
-                                alert('value: ' + val);
-                            }, function(err){
-                                alert('Error in notification: ' + JSON.stringify(err));
-                            });
-                         }
+            
 
-                         function disconnectedDevice(err) { 
-                             alert("Connection failure: " + JSON.stringify(err));
-                             ble.connect(dconnectToDevice, connectedDevice, disconnectedDevice) 
-                        }
+                         
         </script>
     </body>
 </html>
