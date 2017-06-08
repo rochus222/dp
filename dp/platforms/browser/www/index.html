@@ -19,9 +19,9 @@
                     });
 
                 bluetoothle.discover(function(device) {
-                    //if(!device.address) return;
+                    if(!device.address) return;
                     var con = confirm('Connect to ' + JSON.stringify(device) + '?'); 
-                    /*if(con){
+                    if(con){
                         bluetoothle.stopScan();
                         bluetoothle.discover(function(status) {
                             alert(JSON.stringify(status))
@@ -29,7 +29,7 @@
                              alert("Bond error: " + JSON.stringify(err));
                              //ble.disconnect(device.id);
                         }, {address : device.address});
-                    }*/
+                    }
                 }, function(err) { 
                              alert("Connection failure: " + JSON.stringify(err));
                              //ble.disconnect(device.id,);
