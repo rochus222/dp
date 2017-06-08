@@ -7,6 +7,7 @@
     </head>
     <body>
         <div id="connect">Not Connected</div>
+        <div id="scan">&nbsp;</div>
         <button onClick="scan();">Scan</button>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript">
@@ -30,7 +31,7 @@
   return re;
 }
             function scan(){
-                alert("Scan Started")
+                document.getElementById('scan').innerHTML = 'Scanning...';
                ble.startScan([], function(device) {
                  var con = confirm('Connect to ' + device.name + '?');  
                  if(con){
@@ -40,8 +41,10 @@
                         ble.connect(connectToDevice, function (connected) { 
                             alert("Connected!"+ connected);
                             ble.startNotification(device.id, '0000fee4-0000-1000-8000-00805f9b34fb', '2a1e0005-fd51-d882-8ba8-b98c0000cd1e', function(val){
+                                var hex = [];
                                 var res = bluetoothle.bytesToString(val);
-                                alert(stringToBytes(res));
+                                for(var i = 0; i<res.length; i++) hex.push(res[i].toString(16));
+                                alert(stringToBytes(hex));
                             }, function(err){
                                 alert('Error in notification: ' + JSON.stringify(err));
                             });
@@ -56,8 +59,7 @@
 
             setTimeout(ble.stopScan,
                 10000,
-                function() { alert("Scan complete"); },
-                function() { alert("stopScan failed"); }
+                function() { document.getElementById('scan').innerHTML = "&nbsp;"; }
             );
             }
 
