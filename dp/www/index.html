@@ -43,8 +43,10 @@
                                 var hex = [];
                                 var res = stringToBytes(bluetoothle.bytesToString(val));
                                 for(var i = 0; i<res.length; i++) hex.push(res[i].toString(16));
+                                var temp = (parseInt([hex[4],hex[5]].join(''), 16))*165-40;
+                                var hum = (parseInt([hex[6],hex[7]].join(''), 16))*100;
                                 //var temp = parseInt(hex.substring(), 16);
-                                alert(hex);
+                                alert('Temperature: ' + temp + '°C Humidity: ' + hum + '%RH');
                             }, function(err){
                                 alert('Error in notification: ' + JSON.stringify(err));
                             });
