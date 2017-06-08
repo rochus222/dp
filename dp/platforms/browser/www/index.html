@@ -92,7 +92,7 @@ var app = {
             console.log("Found " + JSON.stringify(peripheral));
             foundHeartRateMonitor = true;
             connected_peripheral = peripheral.id;
-            ble.startNotification(peripheral.id, heartRate.service, heartRate.measurement, app.onData, app.onError);
+            ble.connect(peripheral.id, app.onConnect, app.onDisconnect);
             }
         }
 
@@ -110,22 +110,25 @@ var app = {
     },
     onConnect: function(peripheral) {
         app.status("Connected to " + peripheral.id);
-        ble.startNotification(peripheral.id, heartRate.service, heartRate.measurement, app.onData, app.onError);
+        ble.read(peripheral.id, heartRate.service, heartRate.measurement, app.onData, app.onError);
     },
     onDisconnect: function(reason) {
         alert("Disconnected " + JSON.stringify(reason));
         beatsPerMinute.innerHTML = "...";
         app.status("Disconnected");
-        ble.connect(connected_peripheral.id, app.onConnect, app.onDisconnect);
     },
     onData: function(buffer) {
         // assuming heart rate measurement is Uint8 format, real code should check the flags
         // See the characteristic specs http://goo.gl/N7S5ZS
         var data = new Uint8Array(buffer);
         beatsPerMinute.innerHTML = data[1];
+        ble.disconnect(connected_peripheral.id);
+        setTimeout(function(){app.scan();}, 5000);
     },
     onError: function(reason) {
         alert("There was an error " + reason);
+        ble.disconnect(connected_peripheral.id);
+        setTimeout(function(){app.scan();}, 5000);
     },
     status: function(message) {
         console.log(message);
