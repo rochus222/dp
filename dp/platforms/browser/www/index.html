@@ -86,6 +86,7 @@ var app = {
 
         function onScan(peripheral) {
             // this is demo code, assume there is only one heart rate monitor
+            alert(peripheral.name);
             if(peripheral.name=="tmp_rh #5108"){
                 
             console.log("Found " + JSON.stringify(peripheral));
