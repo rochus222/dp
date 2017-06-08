@@ -10,7 +10,13 @@
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript">
             function scan(){
-                alert("Scan Started")
+                bluetoothle.initialize(function(status){alert(status);}, {
+                    "request": true,
+                    "statusReceiver": false,
+                    "restoreKey" : "bluetoothleplugin"
+                    });
+
+               /* alert("Scan Started")
                ble.startScan([], function(device) {
                  var con = confirm('Connect to ' + device.name + '?');  
                  if(con){
@@ -32,7 +38,7 @@
                 10000,
                 function() { alert("Scan complete"); },
                 function() { alert("stopScan failed"); }
-            );
+            );*/
             }
         </script>
     </body>

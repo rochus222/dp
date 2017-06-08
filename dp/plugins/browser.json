@@ -9,6 +9,9 @@
     "installed_plugins": {
         "cordova-plugin-ble-central": {
             "PACKAGE_NAME": "com.pkdesigns.temp_rh"
+        },
+        "cordova-plugin-bluetoothle": {
+            "PACKAGE_NAME": "com.pkdesigns.temp_rh"
         }
     },
     "dependent_plugins": {

@@ -15,13 +15,22 @@ module.exports = [
         "merges": [
             "ble"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-bluetoothle/www/bluetoothle.js",
+        "id": "cordova-plugin-bluetoothle.BluetoothLe",
+        "pluginId": "cordova-plugin-bluetoothle",
+        "clobbers": [
+            "window.bluetoothle"
+        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
     "cordova-plugin-ble-central": "1.1.4",
-    "cordova-plugin-compat": "1.1.0"
+    "cordova-plugin-compat": "1.1.0",
+    "cordova-plugin-bluetoothle": "4.4.0"
 }
 // BOTTOM OF METADATA
 });
