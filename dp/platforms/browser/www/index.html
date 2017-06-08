@@ -23,6 +23,7 @@
                             });
                          }, function(err) { 
                              alert("Connection failure: " + JSON.stringify(err));
+                             ble.disconnect(device.id,);
                         });
                  }
             }, function(err){alert("Scan failed: " + err)});
