@@ -8,6 +8,9 @@
     <body>
         <div id="connect">Not Connected</div>
         <div id="scan">&nbsp;</div>
+        <div id="temp">Temp: </div>
+        <div id="hum">Hum: </div>
+        <div id="resp">Response: </div>
         <button onClick="scan();">Scan</button>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript">
@@ -43,10 +46,12 @@
                                 var hex = [];
                                 var res = stringToBytes(bluetoothle.bytesToString(val));
                                 for(var i = 0; i<res.length; i++) hex.push(('0' + res[i].toString(16)).slice(-2));
-                                var temp = (parseFloat(parseInt([hex[3],hex[4]].join(''), 16))/65536)*165-40;
-                                var hum = (parseFloat(parseInt([hex[5],hex[6]].join(''), 16))/65536)*100;
+                                var temp = (parseInt([hex[3],hex[4]].join(''), 16)/65536)*165-40;
+                                var hum = (parseInt([hex[5],hex[6]].join(''), 16)/65536)*100;
                                 //var temp = parseInt(hex.substring(), 16);
-                                alert('Temperature: ' + temp + '°C Humidity: ' + hum + '%RH');
+                                document.getElementById('temp').innerHTML = 'Temp:' + temp + '°C';
+                                document.getElementById('hum').innerHTML = 'Hum:' + hum + '°C';
+                                document.getElementById('resp').innerHTML = 'Response: ' + hex;
                             }, function(err){
                                 alert('Error in notification: ' + JSON.stringify(err));
                             });
