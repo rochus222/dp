@@ -1,78 +1,99 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-        <title>Blank App</title>
-    </head>
-    <body onLoad="init();">
-        <div id="connect">Not Connected</div>
-        <div id="scan">&nbsp;</div>
-        <div id="temp">Temp: </div>
-        <div id="hum">Hum: </div>
-        <div id="resp">Response: </div>
-        <button onClick="scan();">Scan</button>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Blank App</title>
+</head>
+
+<body onLoad="init();">
+    <div id="connect">Not Connected</div>
+    <div id="scan">&nbsp;</div>
+    <div id="temp">Temp: </div>
+    <div id="hum">Hum: </div>
+    <div id="resp">Response: </div>
+    <!--<button onClick="scan();">Scan</button>-->
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript">
         var connectToDevice;
 
-        function stringToBytes ( str ) {
+        var params = {
+            name: 'tmp_rh',
+            service: '0000fee4-0000-1000-8000-00805f9b34fb',
+            characteristic: '2a1e0005-fd51-d882-8ba8-b98c0000cd1e'
+        };
+
+
+        function init() {
+            setTimeout(function() {
+                scan();
+            }, 5000);
+        }
+
+        function stringToBytes(str) {
             var ch, st, re = [];
-            for (var i = 0; i < str.length; i++ ) {
-                ch = str.charCodeAt(i);  // get char 
-                st = [];                 // set up "stack"
+            for (var i = 0; i < str.length; i++) {
+                ch = str.charCodeAt(i); // get char 
+                st = []; // set up "stack"
                 do {
-                st.push( ch & 0xFF );  // push byte to stack
-                ch = ch >> 8;          // shift value down by 1 byte
-                }  
-                while ( ch );
+                    st.push(ch & 0xFF); // push byte to stack
+                    ch = ch >> 8; // shift value down by 1 byte
+                }
+                while (ch);
                 // add stack contents to result
                 // done because chars have "wrong" endianness
-                re = re.concat( st.reverse() );
+                re = re.concat(st.reverse());
             }
             // return an array of bytes
             return re;
         }
 
-            function scan(){
-               document.getElementById('scan').innerHTML = 'Scanning...';
-               ble.startScan([], function(device) {
-                 alert(device.name.substring(0,6), device.name.substring(0,6) == 'tmp_rh')  
-                 //var con = confirm('Connect to ' + device.name + '? ' + device.name.substring(0,6));  
-                 if(device.name.substring(0,6) == 'tmp_rh'){
-                     connectToDevice = device.id;
-                     ble.stopScan(function(){
-                        ble.connect(connectToDevice, function (connected) { 
+        function processData(data) {
+            var hex = [];
+            var res = stringToBytes(bluetoothle.bytesToString(data));
+            for (var i = 0; i < res.length; i++) hex.push(('0' + res[i].toString(16)).slice(-2));
+            var temp = (parseInt([hex[hex.length - 1], hex[hex.length - 2]].join(''), 16) / 65536) * 165 - 40;
+            var hum = (parseInt([hex[hex.length - 3], hex[hex.length - 4]].join(''), 16) / 65536) * 100;
+            return {
+                handler: [hex[0], hex[1]],
+                response: hex.join(''),
+                temp: temp.toFixed(2),
+                tempHex: [hex[hex.length - 1], hex[hex.length - 2]].join(''),
+                hum: hum.toFixed(2),
+                humHex: [hex[hex.length - 3], hex[hex.length - 4]].join('')
+            };
+
+        }
+
+        function scan() {
+            document.getElementById('scan').innerHTML = 'Scanning...';
+            ble.startScan([], function(device) {
+                if (device.name.substring(0, 6) == params.name) {
+                    connectToDevice = device.id;
+                    ble.stopScan(function() {
+                        ble.connect(connectToDevice, function(connected) {
                             ble.stopScan();
                             document.getElementById('scan').innerHTML = "&nbsp;";
                             document.getElementById('connect').innerHTML = 'Connected: ' + device.name;
-                            ble.startNotification(device.id, '0000fee4-0000-1000-8000-00805f9b34fb', '2a1e0005-fd51-d882-8ba8-b98c0000cd1e', function(val){
-                                var hex = [];
-                                var res = stringToBytes(bluetoothle.bytesToString(val));
-                                for(var i = 0; i<res.length; i++) hex.push(('0' + res[i].toString(16)).slice(-2));                                
-                                var temp = (parseInt([hex[hex.length-1],hex[hex.length-2]].join(''), 16)/65536)*165-40;
-                                var hum = (parseInt([hex[hex.length-3],hex[hex.length-4]].join(''), 16)/65536)*100;
-                                //var temp = parseInt(hex.substring(), 16);
-                                document.getElementById('temp').innerHTML = 'Temp:' + temp.toFixed(2) + '°C (0x' + [hex[hex.length-1],hex[hex.length-2]].join('') + ')';
-                                document.getElementById('hum').innerHTML = 'Hum:' + hum.toFixed(2) + '%RH (0x' + [hex[hex.length-3],hex[hex.length-4]].join('') + ')';
-                                document.getElementById('resp').innerHTML = 'Response: ' + hex.join('');
-                            }, function(err){
+                            ble.startNotification(device.id, params.service, params.characteristic, function(val) {
+                                var data = processData(val);
+                                document.getElementById('temp').innerHTML = 'Temp:' + data.temp + '°C (0x' + data.tempHex + ')';
+                                document.getElementById('hum').innerHTML = 'Hum:' + data.hum + '%RH (0x' + data.humHex + ')';
+                                document.getElementById('resp').innerHTML = 'Response: ' + data.response;
+                            }, function(err) {
                                 alert('Error in notification: ' + JSON.stringify(err));
                             });
-                         }, function (err) { 
-                             document.getElementById('connect').innerHTML = 'Not Connected';
-                             scan();
-                        }) 
-                     });
-                     
-                 }
-            });
-            }
+                        }, function(err) {
+                            document.getElementById('connect').innerHTML = 'Not Connected';
+                            scan();
+                        })
+                    });
 
-            function init() {
-                setTimeout(function(){scan();}, 5000);
-            }
-                         
-        </script>
-    </body>
+                }
+            });
+        }
+    </script>
+</body>
+
 </html>
