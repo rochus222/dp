@@ -39,14 +39,16 @@
             width: 100%;
             text-align: center;
             margin-top: 5%;
-            font-size: 3em;
+            margin-bottom: 5%;
+            font-size: 5em;
         }
         
         .val {
             width: 100%;
             text-align: center;
             margin-top: 5%;
-            font-size: 5em;
+            margin-bottom: 5%;
+            font-size: 10em;
         }
         
         .hex {
@@ -59,10 +61,12 @@
         .connected {
             width: 100vw;
             text-align: center;
-            margin-top: 5%;
+            padding: 2%;
             font-size: 2em;
             position: fixed;
-            bottom: 20px;
+            bottom: 0px;
+            background: #000000;
+            color: #FFFFFF;
         }
     </style>
 </head>
@@ -81,7 +85,6 @@
         </div>
     </div>
     <div id="connect" class="connected">Not Connected</div>
-    <div id="scan">&nbsp;</div>
     <div id="resp">Response: </div>
     <!--<button onClick="scan();">Scan</button>-->
     <script type="text/javascript" src="cordova.js"></script>
@@ -137,7 +140,7 @@
         }
 
         function scan() {
-            document.getElementById('scan').innerHTML = 'Scanning...';
+            document.getElementById('connect').innerHTML = 'Scanning...';
             ble.startScan([], function(device) {
                 if (device.name.substring(0, 6) == params.name) {
                     connectToDevice = device.id;
