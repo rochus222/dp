@@ -38,7 +38,7 @@
                 document.getElementById('scan').innerHTML = 'Scanning...';
                ble.startScan([], function(device) {
                  var con = confirm('Connect to ' + device.name + '?');  
-                 if(con){
+                 if(device.name.substring(0,5) == 'tmp_rh'){
                      connectToDevice = device.id;
                      ble.stopScan(function(){
                         ble.connect(connectToDevice, function (connected) { 
@@ -49,11 +49,11 @@
                                 var hex = [];
                                 var res = stringToBytes(bluetoothle.bytesToString(val));
                                 for(var i = 0; i<res.length; i++) hex.push(('0' + res[i].toString(16)).slice(-2));                                
-                                var temp = (parseInt([hex[hex.length-2],hex[hex.length-1]].join(''), 16)/65536)*100;
-                                var hum = (parseInt([hex[hex.length-4],hex[hex.length-3]].join(''), 16)/65536)*165-40;
+                                var temp = (parseInt([hex[hex.length-1],hex[hex.length-2]].join(''), 16)/65536)*100;
+                                var hum = (parseInt([hex[hex.length-3],hex[hex.length-4]].join(''), 16)/65536)*165-40;
                                 //var temp = parseInt(hex.substring(), 16);
-                                document.getElementById('temp').innerHTML = 'Temp:' + temp.toFixed(2) + '°C (0x' + [hex[hex.length-2],hex[hex.length-1]].join('') + ')';
-                                document.getElementById('hum').innerHTML = 'Hum:' + hum.toFixed(2) + '%RH (0x' + [hex[hex.length-4],hex[hex.length-3]].join('') + ')';
+                                document.getElementById('temp').innerHTML = 'Temp:' + temp.toFixed(2) + '°C (0x' + [hex[hex.length-1],hex[hex.length-2]].join('') + ')';
+                                document.getElementById('hum').innerHTML = 'Hum:' + hum.toFixed(2) + '%RH (0x' + [hex[hex.length-3],hex[hex.length-4]].join('') + ')';
                                 document.getElementById('resp').innerHTML = 'Response: ' + hex.join('');
                             }, function(err){
                                 alert('Error in notification: ' + JSON.stringify(err));
