@@ -152,11 +152,11 @@
                             ble.startNotification(device.id, params.service, params.characteristic, function(val) {
                                 var data = processData(val);
                                 if (data.tempHex != '0000') {
-                                    document.getElementById('temp').innerHTML = data.temp;
+                                    document.getElementById('temp').innerHTML = data.temp + '°C';
                                     document.getElementById('tempHex').innerHTML = '0x' + data.tempHex;
                                 }
                                 if (data.humHex != '0000') {
-                                    document.getElementById('hum').innerHTML = data.hum;
+                                    document.getElementById('hum').innerHTML = data.hum + '%RH';
                                     document.getElementById('humHex').innerHTML = '0x' + data.humHex;
                                 }
 
