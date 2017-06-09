@@ -5,7 +5,7 @@
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
         <title>Blank App</title>
     </head>
-    <body>
+    <body onLoad="scan();">
         <div id="connect">Not Connected</div>
         <div id="scan">&nbsp;</div>
         <div id="temp">Temp: </div>
@@ -35,10 +35,10 @@
         }
 
             function scan(){
-                document.getElementById('scan').innerHTML = 'Scanning...';
+               document.getElementById('scan').innerHTML = 'Scanning...';
                ble.startScan([], function(device) {
-                 var con = confirm('Connect to ' + device.name + '? ' + device.name.substring(0,5));  
-                 if(con/*device.name.substring(0,5) == 'tmp_rh'*/){
+                 //var con = confirm('Connect to ' + device.name + '? ' + device.name.substring(0,6));  
+                 if(device.name.substring(0,6) == 'tmp_rh'){
                      connectToDevice = device.id;
                      ble.stopScan(function(){
                         ble.connect(connectToDevice, function (connected) { 
@@ -60,17 +60,17 @@
                             });
                          }, function (err) { 
                              document.getElementById('connect').innerHTML = 'Not Connected';
-                             ble.connect(connectToDevice, connectedDevice, disconnectedDevice) 
+                             scan();
                         }) 
                      });
                      
                  }
             }, function(err){alert("Scan failed: " + err)});
 
-            setTimeout(ble.stopScan,
-                5000,
-                function() { document.getElementById('scan').innerHTML = "&nbsp;"; }
-            );
+                setTimeout(ble.stopScan,
+                    5000,
+                    function() { document.getElementById('scan').innerHTML = "&nbsp;"; }
+                );
             }
 
             
