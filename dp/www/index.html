@@ -48,12 +48,12 @@
                             ble.startNotification(device.id, '0000fee4-0000-1000-8000-00805f9b34fb', '2a1e0005-fd51-d882-8ba8-b98c0000cd1e', function(val){
                                 var hex = [];
                                 var res = stringToBytes(bluetoothle.bytesToString(val));
-                                for(var i = 0; i<res.length; i++) hex.push(('0' + res[i].toString(16)).slice(-2));
-                                var temp = (parseInt([hex[hex.length-4],hex[hex.length-3]].join(''), 16)/65536)*165-40;
-                                var hum = (parseInt([hex[hex.length-2],hex[hex.length-1]].join(''), 16)/65536)*100;
+                                for(var i = 0; i<res.length; i++) hex.push(('0' + res[i].toString(16)).slice(-2));                                
+                                var temp = (parseInt([hex[hex.length-2],hex[hex.length-1]].join(''), 16)/65536)*100;
+                                var hum = (parseInt([hex[hex.length-4],hex[hex.length-3]].join(''), 16)/65536)*165-40;
                                 //var temp = parseInt(hex.substring(), 16);
-                                document.getElementById('temp').innerHTML = 'Temp:' + temp + '°C (' + [hex[hex.length-4],hex[hex.length-3]].join('') + ')';
-                                document.getElementById('hum').innerHTML = 'Hum:' + hum + '%RH (' + [hex[hex.length-2],hex[hex.length-1]].join('') + ')';
+                                document.getElementById('temp').innerHTML = 'Temp:' + temp.toFixed(2) + '°C (0x' + [hex[hex.length-2],hex[hex.length-1]].join('') + ')';
+                                document.getElementById('hum').innerHTML = 'Hum:' + hum.toFixed(2) + '%RH (0x' + [hex[hex.length-4],hex[hex.length-3]].join('') + ')';
                                 document.getElementById('resp').innerHTML = 'Response: ' + hex.join('');
                             }, function(err){
                                 alert('Error in notification: ' + JSON.stringify(err));
