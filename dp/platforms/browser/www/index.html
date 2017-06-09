@@ -54,6 +54,7 @@
             width: 100%;
             text-align: center;
             margin-top: 5%;
+            margin-bottom: 5%;
             font-size: 2em;
         }
         
@@ -66,6 +67,14 @@
             font-size: 2em;
             position: fixed;
             bottom: 0px;
+        }
+        
+        .response {
+            width: 100%;
+            text-align: center;
+            margin-top: 5%;
+            margin-bottom: 5%;
+            font-size: 2em;
         }
     </style>
 </head>
@@ -82,10 +91,10 @@
             <div id="hum" class="val"> - </div>
             <div id="humHex" class="hex"> - </div>
         </div>
+        <div id="response" class="response"> - </div>
     </div>
-    <div id="connect" class="connected">Not Connected</div>
+    <div id="connect" class="connected">Nepripojený</div>
     <div id="scan">&nbsp;</div>
-    <div id="resp">Response: </div>
     <!--<button onClick="scan();">Scan</button>-->
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript">
@@ -131,9 +140,9 @@
             return {
                 handler: [hex[0], hex[1]],
                 response: hex.join(''),
-                temp: temp.toFixed(2),
+                temp: temp.toFixed(1),
                 tempHex: [hex[hex.length - 1], hex[hex.length - 2]].join(''),
-                hum: hum.toFixed(2),
+                hum: hum.toFixed(1),
                 humHex: [hex[hex.length - 3], hex[hex.length - 4]].join('')
             };
 
@@ -148,7 +157,7 @@
                         ble.connect(connectToDevice, function(connected) {
                             ble.stopScan();
                             document.getElementById('scan').innerHTML = "&nbsp;";
-                            document.getElementById('connect').innerHTML = 'Connected: ' + device.name;
+                            document.getElementById('connect').innerHTML = 'Pripojený: ' + device.name;
                             ble.startNotification(device.id, params.service, params.characteristic, function(val) {
                                 var data = processData(val);
                                 if (data.tempHex != '0000') {
@@ -160,12 +169,12 @@
                                     document.getElementById('humHex').innerHTML = '0x' + data.humHex;
                                 }
 
-                                document.getElementById('resp').innerHTML = 'Response: ' + data.response;
+                                document.getElementById('response').innerHTML = 'Prijaté dáta: ' + data.response;
                             }, function(err) {
                                 alert('Error in notification: ' + JSON.stringify(err));
                             });
                         }, function(err) {
-                            document.getElementById('connect').innerHTML = 'Not Connected';
+                            document.getElementById('connect').innerHTML = 'Nepripojený';
                             scan();
                         })
                     });
