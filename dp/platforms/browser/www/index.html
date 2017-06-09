@@ -89,8 +89,6 @@
     <!--<button onClick="scan();">Scan</button>-->
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript">
-        var connectToDevice;
-
         var params = {
             name: 'tmp_rh',
             service: '0000fee4-0000-1000-8000-00805f9b34fb',
@@ -142,13 +140,11 @@
         function scan() {
             //document.getElementById('connect').innerHTML = 'Scanning...';
             ble.startScan([], function(device) {
-                alert(device);
-                if (device.name.substring(0, 6) == params.name) {
-                    connectToDevice = device.id;
+                var con = confirm('Connect to ' + device.name + '?');
+                if (con /*device.name.substring(0, 6) == params.name*/ ) {
                     ble.stopScan(function() {
                         ble.connect(connectToDevice, function(connected) {
                             ble.stopScan();
-                            document.getElementById('scan').innerHTML = "&nbsp;";
                             document.getElementById('connect').innerHTML = 'Connected: ' + device.name;
                             ble.startNotification(device.id, params.service, params.characteristic, function(val) {
                                 var data = processData(val);
