@@ -38,8 +38,8 @@
                document.getElementById('scan').innerHTML = 'Scanning...';
                ble.startScan([], function(device) {
                  alert(device.name.substring(0,6), device.name.substring(0,6) == 'tmp_rh')  
-                 var con = confirm('Connect to ' + device.name + '? ' + device.name.substring(0,6));  
-                 if(con/*device.name.substring(0,6) == 'tmp_rh'*/){
+                 //var con = confirm('Connect to ' + device.name + '? ' + device.name.substring(0,6));  
+                 if(device.name.substring(0,6) == 'tmp_rh'){
                      connectToDevice = device.id;
                      ble.stopScan(function(){
                         ble.connect(connectToDevice, function (connected) { 
