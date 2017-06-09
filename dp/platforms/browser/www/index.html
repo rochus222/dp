@@ -47,11 +47,11 @@
                                 var hex = [];
                                 var res = stringToBytes(bluetoothle.bytesToString(val));
                                 for(var i = 0; i<res.length; i++) hex.push(('0' + res[i].toString(16)).slice(-2));
-                                var temp = (parseInt([hex[4],hex[5]].join(''), 16)/65536)*165-40;
-                                var hum = (parseInt([hex[6],hex[7]].join(''), 16)/65536)*100;
+                                var temp = (parseInt([hex[3],hex[4]].join(''), 16)/65536)*165-40;
+                                var hum = (parseInt([hex[5],hex[6]].join(''), 16)/65536)*100;
                                 //var temp = parseInt(hex.substring(), 16);
-                                document.getElementById('temp').innerHTML = 'Temp:' + temp + '°C (' + [hex[4],hex[5]].join('') + ')';
-                                document.getElementById('hum').innerHTML = 'Hum:' + hum + '%RH (' + [hex[6],hex[7]].join('') + ')';
+                                document.getElementById('temp').innerHTML = 'Temp:' + temp + '°C (' + [hex[3],hex[4]].join('') + ')';
+                                document.getElementById('hum').innerHTML = 'Hum:' + hum + '%RH (' + [hex[5],hex[6]].join('') + ')';
                                 document.getElementById('resp').innerHTML = 'Response: ' + hex.join('');
                             }, function(err){
                                 alert('Error in notification: ' + JSON.stringify(err));
