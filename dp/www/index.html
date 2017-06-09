@@ -38,7 +38,7 @@
         .head {
             width: 100%;
             text-align: center;
-            margin-top: 5%;
+            margin-top: 10%;
             margin-bottom: 5%;
             font-size: 5em;
         }
@@ -140,7 +140,7 @@
         }
 
         function scan() {
-            document.getElementById('connect').innerHTML = 'Scanning...';
+            //document.getElementById('connect').innerHTML = 'Scanning...';
             ble.startScan([], function(device) {
                 if (device.name.substring(0, 6) == params.name) {
                     connectToDevice = device.id;
