@@ -140,12 +140,12 @@
         function scan() {
             //document.getElementById('connect').innerHTML = 'Scanning...';
             ble.startScan([], function(device) {
-                var con = confirm('Connect to ' + device.name + '?');
-                if (con /*device.name.substring(0, 6) == params.name*/ ) {
+                if (device.name.substring(0, 6) == params.name) {
                     ble.stopScan(function() {
                         ble.connect(connectToDevice, function(connected) {
                             ble.stopScan();
                             document.getElementById('connect').innerHTML = 'Connected: ' + device.name;
+                            alert('connected');
                             ble.startNotification(device.id, params.service, params.characteristic, function(val) {
                                 var data = processData(val);
                                 if (data.tempHex != '0000') {
