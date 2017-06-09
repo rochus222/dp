@@ -53,8 +53,8 @@
         .hex {
             width: 100%;
             text-align: center;
-            margin-top: 3%;
-            margin-bottom: 3%;
+            margin-top: 5%;
+            margin-bottom: 5%;
             font-size: 2em;
         }
         
@@ -94,7 +94,7 @@
         </div>
         <div id="response" class="response"> - </div>
     </div>
-    <div id="connect" class="connected">Nepripojený</div>
+    <div id="connect" class="connected">Nepripojené zariadenie</div>
     <div id="scan">&nbsp;</div>
     <!--<button onClick="scan();">Scan</button>-->
     <script type="text/javascript" src="cordova.js"></script>
@@ -158,7 +158,7 @@
                         ble.connect(connectToDevice, function(connected) {
                             ble.stopScan();
                             document.getElementById('scan').innerHTML = "&nbsp;";
-                            document.getElementById('connect').innerHTML = 'Pripojený: ' + device.name;
+                            document.getElementById('connect').innerHTML = 'Pripojené zariadenie: ' + device.name;
                             ble.startNotification(device.id, params.service, params.characteristic, function(val) {
                                 var data = processData(val);
                                 if (data.tempHex != '0000') {
@@ -175,7 +175,7 @@
                                 alert('Error in notification: ' + JSON.stringify(err));
                             });
                         }, function(err) {
-                            document.getElementById('connect').innerHTML = 'Nepripojený';
+                            document.getElementById('connect').innerHTML = 'Nepripojené zariadenie';
                             scan();
                         })
                     });
