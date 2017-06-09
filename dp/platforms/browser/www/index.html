@@ -38,17 +38,15 @@
         .head {
             width: 100%;
             text-align: center;
-            margin-top: 10%;
-            margin-bottom: 5%;
-            font-size: 5em;
+            margin-top: 5%;
+            font-size: 3em;
         }
         
         .val {
             width: 100%;
             text-align: center;
             margin-top: 5%;
-            margin-bottom: 5%;
-            font-size: 10em;
+            font-size: 5em;
         }
         
         .hex {
@@ -61,12 +59,10 @@
         .connected {
             width: 100vw;
             text-align: center;
-            padding: 2%;
+            margin-top: 5%;
             font-size: 2em;
             position: fixed;
-            bottom: 0px;
-            background: #000000;
-            color: #FFFFFF;
+            bottom: 20px;
         }
     </style>
 </head>
@@ -85,10 +81,13 @@
         </div>
     </div>
     <div id="connect" class="connected">Not Connected</div>
+    <div id="scan">&nbsp;</div>
     <div id="resp">Response: </div>
     <!--<button onClick="scan();">Scan</button>-->
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript">
+        var connectToDevice;
+
         var params = {
             name: 'tmp_rh',
             service: '0000fee4-0000-1000-8000-00805f9b34fb',
@@ -138,22 +137,23 @@
         }
 
         function scan() {
-            //document.getElementById('connect').innerHTML = 'Scanning...';
+            document.getElementById('scan').innerHTML = 'Scanning...';
             ble.startScan([], function(device) {
                 if (device.name.substring(0, 6) == params.name) {
+                    connectToDevice = device.id;
                     ble.stopScan(function() {
                         ble.connect(connectToDevice, function(connected) {
                             ble.stopScan();
+                            document.getElementById('scan').innerHTML = "&nbsp;";
                             document.getElementById('connect').innerHTML = 'Connected: ' + device.name;
-                            alert('connected');
                             ble.startNotification(device.id, params.service, params.characteristic, function(val) {
                                 var data = processData(val);
                                 if (data.tempHex != '0000') {
-                                    document.getElementById('temp').innerHTML = data.temp + '°C';
+                                    document.getElementById('temp').innerHTML = data.temp;
                                     document.getElementById('tempHex').innerHTML = '0x' + data.tempHex;
                                 }
                                 if (data.humHex != '0000') {
-                                    document.getElementById('hum').innerHTML = data.hum + '%RH';
+                                    document.getElementById('hum').innerHTML = data.hum;
                                     document.getElementById('humHex').innerHTML = '0x' + data.humHex;
                                 }
 
