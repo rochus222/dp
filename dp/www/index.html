@@ -37,8 +37,8 @@
             function scan(){
                 document.getElementById('scan').innerHTML = 'Scanning...';
                ble.startScan([], function(device) {
-                 var con = confirm('Connect to ' + device.name + '?');  
-                 if(device.name.substring(0,5) == 'tmp_rh'){
+                 var con = confirm('Connect to ' + device.name + '? ' + device.name.substring(0,5));  
+                 if(con/*device.name.substring(0,5) == 'tmp_rh'*/){
                      connectToDevice = device.id;
                      ble.stopScan(function(){
                         ble.connect(connectToDevice, function (connected) { 
