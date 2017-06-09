@@ -37,6 +37,7 @@
             function scan(){
                document.getElementById('scan').innerHTML = 'Scanning...';
                ble.startScan([], function(device) {
+                 alert(device.name.substring(0,6), device.name.substring(0,6) == 'tmp_rh')  
                  //var con = confirm('Connect to ' + device.name + '? ' + device.name.substring(0,6));  
                  if(device.name.substring(0,6) == 'tmp_rh'){
                      connectToDevice = device.id;
@@ -65,12 +66,7 @@
                      });
                      
                  }
-            }, function(err){alert("Scan failed: " + err)});
-
-                setTimeout(ble.stopScan,
-                    5000,
-                    function() { document.getElementById('scan').innerHTML = "&nbsp;"; }
-                );
+            });
             }
 
             
