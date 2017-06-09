@@ -50,8 +50,8 @@
                                 var temp = (parseInt([hex[4],hex[5]].join(''), 16)/65536)*165-40;
                                 var hum = (parseInt([hex[6],hex[7]].join(''), 16)/65536)*100;
                                 //var temp = parseInt(hex.substring(), 16);
-                                document.getElementById('temp').innerHTML = 'Temp:' + temp + '°C';
-                                document.getElementById('hum').innerHTML = 'Hum:' + hum + '°C';
+                                document.getElementById('temp').innerHTML = 'Temp:' + temp + '°C (' + [hex[4],hex[5]].join('') + ')';
+                                document.getElementById('hum').innerHTML = 'Hum:' + hum + '%RH (' + [hex[6],hex[7]].join('') + ')';
                                 document.getElementById('resp').innerHTML = 'Response: ' + hex.join('');
                             }, function(err){
                                 alert('Error in notification: ' + JSON.stringify(err));
