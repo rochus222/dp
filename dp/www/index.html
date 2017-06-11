@@ -143,8 +143,8 @@
                 response: hex.join(''),
                 temp: temp.toFixed(1),
                 tempHex: [hex[hex.length - 1], hex[hex.length - 2]].join(''),
-                hum: hum.toFixed(1),
-                humHex: [hex[hex.length - 3], hex[hex.length - 4]].join('')
+                hum: hex.length > 7 ? hum.toFixed(1) : 0,
+                humHex: hex.length > 7 ? [hex[hex.length - 3], hex[hex.length - 4]].join('') : '0000'
             };
 
         }
